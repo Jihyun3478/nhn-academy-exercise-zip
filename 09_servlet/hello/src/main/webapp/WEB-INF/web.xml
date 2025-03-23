@@ -4,7 +4,68 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          metadata-complete="false"
          version="5.0">
-    
+
+    <jsp-config>
+        <taglib>
+            <taglib-uri>http://nhnacademy.com/cfmt</taglib-uri>
+            <taglib-location>/WEB-INF/tld/customTagLibrary.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+
+    <listener>
+        <listener-class>com.nhnacademy.hello.listener.ServletContextListener</listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>com.nhnacademy.hello.listener.SessionListener</listener-class>
+    </listener>
+
+    <context-param>
+        <param-name>counterFileName</param-name>
+        <param-value>counter.dat</param-value>
+    </context-param>
+
+    <filter>
+        <filter-name>characterEncodingFilter</filter-name>
+        <filter-class>com.nhnacademy.hello.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>characterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>loginCheckFilter</filter-name>
+        <filter-class>com.nhnacademy.hello.filter.LoginCheckFilter</filter-class>
+        <init-param>
+            <param-name>exclude-urls</param-name>
+            <param-value>
+                /login
+                /logout
+                /login.html
+            </param-value>
+        </init-param>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>loginCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>counterFilter</filter-name>
+        <filter-class>com.nhnacademy.hello.filter.CounterFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>counterFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>helloServlet</servlet-name>
         <servlet-class>com.nhnacademy.hello.servlet.HelloServlet</servlet-class>
@@ -151,5 +212,32 @@
     <servlet-mapping>
         <servlet-name>logoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>fileUploadServlet</servlet-name>
+        <servlet-class>com.nhnacademy.hello.servlet.FileUploadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fileUploadServlet</servlet-name>
+        <url-pattern>/fileUpload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>fileDownloadServlet</servlet-name>
+        <servlet-class>com.nhnacademy.hello.servlet.FileDownloadServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>fileDownloadServlet</servlet-name>
+        <url-pattern>/fileDownload</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>noticeServlet</servlet-name>
+        <servlet-class>com.nhnacademy.hello.servlet.NoticeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>noticeServlet</servlet-name>
+        <url-pattern>/jstl/notice</url-pattern>
     </servlet-mapping>
 </web-app>
